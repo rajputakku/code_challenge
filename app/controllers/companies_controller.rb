@@ -10,6 +10,11 @@ class CompaniesController < ApplicationController
   end
 
   def show
+    @zip_code = ZipCodes.identify(@company.zip_code)
+    if @zip_code.present?
+      @city = @zip_code[:city]
+      @state = @zip_code[:state_name]
+    end
   end
 
   def create
@@ -30,7 +35,14 @@ class CompaniesController < ApplicationController
     else
       render :edit
     end
-  end  
+  end 
+
+  def destroy
+    @company.destroy
+    respond_to do |format|
+       format.js{redirect_to companies_path }
+    end
+  end 
 
   private
 

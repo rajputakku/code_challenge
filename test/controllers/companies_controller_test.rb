@@ -21,7 +21,7 @@ class CompaniesControllerTest < ApplicationSystemTestCase
     assert_text @company.name
     assert_text @company.phone
     assert_text @company.email
-    assert_text "City, State"
+    assert_text @city, @state
   end
 
   test "Update" do
@@ -56,6 +56,14 @@ class CompaniesControllerTest < ApplicationSystemTestCase
     last_company = Company.last
     assert_equal "New Test Company", last_company.name
     assert_equal "28173", last_company.zip_code
+  end
+
+  test "should destroy company" do
+    assert_difference('Company.count', -1) do
+      delete company_url(@company, :format => 'js')
+    end
+
+    assert_redirected_to companies_url
   end
 
 end
